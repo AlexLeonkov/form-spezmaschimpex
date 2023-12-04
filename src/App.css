@@ -1,77 +1,51 @@
-/* Add this CSS in your project and ensure class names match your React component structure */
-
-form {
-  font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: 2rem auto;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-fieldset {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-legend {
-  font-size: 1.5rem;
-  color: #333;
+.form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px; /* Adjust the space between the cards */
+}
+.item {
+  border: 1px solid #ccc; /* Adjust the color as needed */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Space inside the border */
+  text-align: center; /* Center the text inside the item */
+  width: 200px; /* Adjust the width as needed */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Optional: adds a subtle shadow */
+  background: #fff; /* Background color for the item */
+  margin-bottom: 20px; /* Space below the item, above the button */
+  transition: transform 0.3s ease; /* Smooth transition for the transform */
+  display: flex; /* Use flexbox to center the image */
+  flex-direction: column; /* Stack the text and image vertically */
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
 }
 
-label {
-  display: block;
-  margin: 1rem 0;
-  cursor: pointer;
+.item img {
+  max-width: 100%; /* Make sure the image is not wider than the item */
+  max-height: 100px; /* Set a maximum height for the image */
+  margin-bottom: 10px; /* Space between the image and the text below it */
 }
 
-input[type="radio"] {
-  margin-right: 0.5rem;
+
+.item:hover {
+  transform: translateY(-5px); /* Moves the item up by 5px on hover */
 }
 
-/* Style for radio buttons - hides default radio button */
-input[type="radio"] {
-  opacity: 0;
-  position: fixed;
-  width: 0;
-}
-
-/* Create a custom radio button */
-label:before {
-  content: '';
-  display: inline-block;
-  margin-right: 10px;
-  width: 20px;
-  height: 20px;
-  vertical-align: sub;
-  background-color: white;
-  border: 2px solid #ddd;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-/* Style for checked state, using a heavier border */
-input[type="radio"]:checked + label:before {
-  border: 6px solid blue;
-}
-
-/* Add some spacing and a pointer cursor for labels */
-label {
-  padding-left: 4px;
-  cursor: pointer;
-}
-
-/* Style the submit button */
 button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
+  margin-top: 20px; /* Space above the button */
 }
