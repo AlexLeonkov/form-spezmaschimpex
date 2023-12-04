@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+
 import './App.css';
 
 function App() {
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    console.log('Selected option:', selectedOption);
+    // You would handle form submission here, perhaps sending the selection to a server
+  };
+
+  const handleChange = (event: any) => {
+    setSelectedOption(event.target.value);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <fieldset>
+        <legend>Wofür interessierst du dich?</legend>
+
+        <label>
+          <input
+            type="radio"
+            value="solarAndHeatPump"
+            checked={selectedOption === 'solarAndHeatPump'}
+            onChange={handleChange}
+          />
+          Solaranlage & Wärmepumpe
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            value="solar"
+            checked={selectedOption === 'solar'}
+            onChange={handleChange}
+          />
+          Solaranlage
+        </label>
+
+        <label>
+          <input
+            type="radio"
+            value="heatPump"
+            checked={selectedOption === 'heatPump'}
+            onChange={handleChange}
+          />
+          Wärmepumpe
+        </label>
+      </fieldset>
+
+      <button type="submit">Submit</button>
+    </form>
   );
 }
-
 export default App;
