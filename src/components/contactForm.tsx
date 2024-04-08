@@ -1,4 +1,6 @@
 import React, { useState, FormEvent } from "react";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 
 type UserData = {
   name: string;
@@ -22,10 +24,16 @@ const ContactForm: React.FC<ContactFormProps> = ({
   const [email, setEmail] = useState(userData.email); // Add this if you have an email field.
   const [question, setQuestion] = useState(userData.question);
   const [plz, setPlz] = useState(userData.plz);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     updateContactData({ name, phone, email, question, plz }); // Add 'email' to this object if necessary.
+  };
+
+  const handlePrivacyCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPrivacyPolicyChecked(e.target.checked);
   };
 
   return (
@@ -48,30 +56,31 @@ const ContactForm: React.FC<ContactFormProps> = ({
           type="text"
           className="form-control"
           id="phoneInput"
-          placeholder="+49 1764221745"
+          placeholder="Für eventuelle Rückfragen"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
       </div>
       {/* Uncomment below if you have an email field */}
-      {/* <div className="form-group">
+      <div className="form-group">
         <label htmlFor="emailInput">E-Mail</label>
         <input
-          type="email"
+          required
+          type="(keine Werbung)"
           className="form-control"
           id="emailInput"
           placeholder="email@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-      </div> */}
+      </div>
       <div className="form-group">
         <label htmlFor="questionInput">Ihre Frage</label>
         <input
           type="text"
           className="form-control"
           id="questionInput"
-          placeholder="Ihre Frage hier"
+          placeholder="Ihre Frage hier (Optional)"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
         />
@@ -87,12 +96,55 @@ const ContactForm: React.FC<ContactFormProps> = ({
           onChange={(e) => setPlz(e.target.value)}
         />
       </div>
-      <button
-        onClick={() => updateContactData({ name, phone, email, question, plz })}
+      {/* <button
+        onClick={() => {
+          setIsLoading(true);
+          updateContactData({ name, phone, email, question, plz });
+        }}
         className="btn-main btn-color"
       >
         Angebot anfordern
-      </button>
+      </button> */}
+
+<div className="´privacy">
+  <input
+    type="checkbox"
+    id="privacyPolicy"
+    checked={privacyPolicyChecked}
+    onChange={handlePrivacyCheck}
+  />
+ <label htmlFor="privacyPolicy" className="privacy-policy-label">
+  Ich willige ein, dass meine Angaben zur Kontaktaufnahme, Angebotserstellung und Zuordnung für Rückfragen gespeichert werden. Hier finden Sie Hinweise zum 
+  <a href="policy.html"> Datenschutz</a>.
+</label>
+
+</div>
+
+      <Button
+        variant="contained"
+        // color="primary"
+        className="btn-main btn-color submitBtn"
+        onClick={() => {
+          setIsLoading(true);
+          updateContactData({ name, phone, email, question, plz });
+        }}
+        disabled={isLoading || !privacyPolicyChecked}
+        endIcon={isLoading ? <CircularProgress size={20} /> : null}
+      >
+        {isLoading ? "lädt..." : "Angebot anfordern"}
+      </Button>
+
+      {/* 
+      <Button
+        onClick={() => {
+          setIsLoading(true);
+          updateContactData({ name, phone, email, question, plz });
+        }}
+        className="btn-main btn-color"
+        loading={isLoading}
+      >
+        {isLoading ? "Lädt..." : "Angebot anfordern"}
+      </Button> */}
     </>
   );
 };

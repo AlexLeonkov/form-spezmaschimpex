@@ -5,6 +5,7 @@ import ContactForm from "./components/contactForm";
 import { Progress } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SuccessScreen from "./components/succesScreen";
+import emailjs from "emailjs-com";
 
 export type ScreenDataType = {
   question: string;
@@ -22,6 +23,11 @@ export type UserData = {
   question: string;
   plz: string;
 };
+declare const fbq: any;
+
+
+
+emailjs.init("sHzLaUUELf-W-VCHb");
 
 const App: React.FC = () => {
   const [activeScreen, setActiveScreen] = useState<number>(1);
@@ -61,8 +67,35 @@ const App: React.FC = () => {
   };
 
   const updateContactData = (newData: Partial<UserData>): void => {
+    console.log(newData, "newData");
     setUserData((prevUserData) => ({ ...prevUserData, ...newData }));
-    setSuccess(true); // Set success to true to indicate submission was successful
+    const emailParams = {
+      propertyType: userData.propertyType,
+      solarUsage: userData.solarUsage,
+      roofOrientation: userData.roofOrientation,
+      areaSize: userData.areaSize,
+      name: newData.name,
+      phone: newData.phone,
+      email: newData.email,
+      question: newData.question,
+      plz: newData.plz,
+    };
+
+    console.log(emailParams);
+
+    fbq('track', 'Lead');
+
+    emailjs.send("service_k8svi04", "template_ujspeyu", emailParams).then(
+      (response) => {
+        console.log("SUCCESS!", response.status, response.text);
+        setSuccess(true); // Update the success state
+      },
+      (error) => {
+        console.log("FAILED...", error);
+      }
+    );
+
+    // setSuccess(true); // Set success to true to indicate submission was successful
   };
 
   const handleFormSubmit = (event: FormEvent): void => {
@@ -104,20 +137,22 @@ const App: React.FC = () => {
     },
     // Fügen Sie mehr Bildschirme hinzu, falls benötigt
   ];
-  
 
   // Conditional rendering based on success state
   if (success) {
     return <SuccessScreen />;
   }
 
-
-
-
   return (
     <div className="offer-section">
       <div className="form-wrap">
         <form onSubmit={handleFormSubmit}>
+
+           <Progress
+            percent={((activeScreen - 1) / (screenData.length + 1)) * 100}
+            size="small"
+            strokeColor="#4392c7"
+          />
           {activeScreen <= screenData.length && (
             <PropertyTypeButtons
               onAnswerSelect={handleNextScreenSelection}
@@ -132,21 +167,16 @@ const App: React.FC = () => {
             />
           )}
 
-        
-
           <button
             type="button"
             disabled={activeScreen === 1}
             className="btn-back"
             onClick={handlePreviousScreen}
           >
-            Back
+            Zurück
           </button>
 
-          <Progress
-            percent={((activeScreen - 1) / (screenData.length + 1)) * 100}
-            size="small"
-          />
+         
         </form>
       </div>
     </div>

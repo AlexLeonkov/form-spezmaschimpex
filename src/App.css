@@ -54,9 +54,10 @@
 }
 
 /* Button styles for main actions */
-.button_react,
-.btn-main {
-  font: 600 16px/1 "Manrope", sans-serif;
+/* .button_react, */
+.btn-main.btn-color {
+  display: block !important;
+  font: 600 16px/1 "Manrope", sans-serif !important;
   color: #072e56;
   border: 1px solid #072e56;
   border-radius: 50px;
@@ -67,14 +68,15 @@
   justify-content: center;
   text-decoration: none;
   white-space: nowrap;
+  margin-top: 10px;
 }
 
 /* Main button hover effect */
 .btn-main:hover,
 .btn-main.btn-color:hover {
-  color: #ffffff;
-  background-color: #3177a6;
-  border-color: #3177a6;
+  color: #ffffff !important;
+  background-color: #3177a6 !important;
+  border-color: #3177a6 !important;
 }
 
 /* Color variations for main button */
@@ -83,36 +85,33 @@
   background-color: #4392c7;
   border: 1px solid #4392c7;
   margin: 0 auto;
+  margin-top: 15px;
 }
 
 /* Button styles for secondary actions */
 .btn-back,
 .btn-secondary {
-  color: white;
-  font-weight: bold;
-  background-color: #d3d3d3; /* Light gray for a less prominent button */
-  border: none;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 16%;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  color: #757575; /* A soft gray for text */
+  font-weight: normal; /* Less emphasis on font weight */
+  background-color: transparent; /* No background for a minimalistic look */
+  border: none; /* Remove the border */
+  padding: 5px 10px; /* Reduce padding for a slimmer look */
+  font-size: 0.875rem; /* Smaller font size for less visual weight */
+  border-radius: 5px; /* Retain the rounded corners but could be less */
+  cursor: pointer; /* Keep the pointer to indicate clickability */
+  transition: color 0.3s ease; /* Transition on color change for interactivity */
+  width: auto; /* Adjust width to content size for a less blocky appearance */
+  margin-top: 10px; /* Less space above the button */
+  margin-bottom: 10px; /* Less space below the button */
+  display: flex;
 }
 
-
-
-.btn-back{
-  display: block;
-  width: 90px;
-}
-/* Hover effects for secondary buttons */
 .btn-back:hover,
 .btn-secondary:hover {
-  background-color: #bdbdbd; /* Slightly darker gray on hover */
+  color: #303030; /* Slightly darker gray to indicate hover state */
+  background-color: transparent; /* Maintain transparent background on hover */
 }
+
 
 /* Button group styling for arranging multiple buttons */
 .button_group {
@@ -134,6 +133,7 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
+  border-radius: 24px;
 }
 
 /* Styling for the section containing the offer form */
@@ -148,4 +148,14 @@
   padding: 32px 40px;
   border-radius: 24px;
   border: 1px solid #072e56;
+  width: 100%;
+}
+
+.´privacy{
+  margin-top: 1rem;
+}
+.privacy-policy-label{
+  display: inline;
+  margin-left: 1rem;
+  
 }
