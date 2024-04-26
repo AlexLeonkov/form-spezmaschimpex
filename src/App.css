@@ -1,3 +1,7 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 /* General container styles for centering and presentation */
 .container_react {
   display: flex;
@@ -5,6 +9,10 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+
+a:link{
+  text-decoration: none;
 }
 
 /* Styling for form and its positioning */
@@ -75,8 +83,8 @@
 .btn-main:hover,
 .btn-main.btn-color:hover {
   color: #ffffff !important;
-  background-color: #3177a6 !important;
-  border-color: #3177a6 !important;
+  background-color: #4392C7 !important;
+  border-color: #4392C7 !important;
 }
 
 /* Color variations for main button */
@@ -84,17 +92,18 @@
   color: #ffffff;
   background-color: #4392c7;
   border: 1px solid #4392c7;
-  margin: 0 auto;
+  margin: 0 auto!important;
   margin-top: 15px;
 }
 
 /* Button styles for secondary actions */
 .btn-back,
 .btn-secondary {
-  color: #757575; /* A soft gray for text */
+  color: #757575!important; /* A soft gray for text */
   font-weight: normal; /* Less emphasis on font weight */
   background-color: transparent; /* No background for a minimalistic look */
   border: none; /* Remove the border */
+  border-color: #757575;
   padding: 5px 10px; /* Reduce padding for a slimmer look */
   font-size: 0.875rem; /* Smaller font size for less visual weight */
   border-radius: 5px; /* Retain the rounded corners but could be less */
@@ -112,7 +121,6 @@
   background-color: transparent; /* Maintain transparent background on hover */
 }
 
-
 /* Button group styling for arranging multiple buttons */
 .button_group {
   display: flex;
@@ -123,9 +131,9 @@
 
 /* Individual button styles within button groups */
 .button_group button {
-  margin: 10px 0; 
+  margin: 10px 0;
   border: none;
-  background-color: #7eb5cf; /* Your button color */
+  background-color: #4392C7; /* Your button color */
   color: white;
   cursor: pointer;
   width: 100%;
@@ -136,10 +144,7 @@
   border-radius: 24px;
 }
 
-/* Styling for the section containing the offer form */
-.offer-section {
-  margin: 140px 0 60px;
-}
+
 
 /* Form wrapper styles for alignment and spacing */
 .form-wrap form {
@@ -151,13 +156,26 @@
   width: 100%;
 }
 
-.´privacy{
+.form-group {
+  padding: 7px 0px;
+}
+
+.form-control::placeholder {
+ 
+ color: #cbcbcb!important;
+
+}
+
+.´privacy {
   margin-top: 1rem;
 }
-.privacy-policy-label{
+.privacy-policy-label {
   display: inline;
   margin-left: 1rem;
-  
+}
+
+#questionInput {
+  height: 80px;
 }
 
 @media screen and (max-width: 768px) {

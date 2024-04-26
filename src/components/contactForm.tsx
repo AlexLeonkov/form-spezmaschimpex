@@ -40,30 +40,30 @@ const ContactForm: React.FC<ContactFormProps> = ({
     <>
       <h3>Kontaktieren Sie uns</h3>
       <div className="form-group">
-        <label htmlFor="nameInput">Name</label>
+        <label htmlFor="nameInput">Name, Vorname*</label>
         <input
           type="text"
           className="form-control"
           id="nameInput"
-          placeholder="Max Musterman"
+          placeholder="Musterman, Max"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="phoneInput">Rufnummer</label>
+        <label htmlFor="phoneInput">Rufnummer*</label>
         <input
           type="text"
           className="form-control"
           id="phoneInput"
-          placeholder="Für eventuelle Rückfragen"
+          placeholder="+491794332245"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
       </div>
       {/* Uncomment below if you have an email field */}
       <div className="form-group">
-        <label htmlFor="emailInput">E-Mail</label>
+        <label htmlFor="emailInput">E-Mail*</label>
         <input
           required
           type="(keine Werbung)"
@@ -74,28 +74,31 @@ const ContactForm: React.FC<ContactFormProps> = ({
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
+
+
       <div className="form-group">
-        <label htmlFor="questionInput">Ihre Frage</label>
-        <input
-          type="text"
-          className="form-control"
-          id="questionInput"
-          placeholder="Ihre Frage hier (Optional)"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="plzInput">Ihre PLZ</label>
+        <label htmlFor="plzInput">Ihre PLZ*</label>
         <input
           type="text"
           className="form-control"
           id="plzInput"
-          placeholder="PLZ"
+          placeholder="13055"
           value={plz}
           onChange={(e) => setPlz(e.target.value)}
         />
       </div>
+      <div className="form-group">
+        <label htmlFor="questionInput">Ihre Frage (optional)</label>
+        <input
+          type="text"
+          className="form-control"
+          id="questionInput"
+         
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+        />
+      </div>
+   
       {/* <button
         onClick={() => {
           setIsLoading(true);
@@ -115,7 +118,7 @@ const ContactForm: React.FC<ContactFormProps> = ({
   />
  <label htmlFor="privacyPolicy" className="privacy-policy-label">
   Ich willige ein, dass meine Angaben zur Kontaktaufnahme, Angebotserstellung und Zuordnung für Rückfragen gespeichert werden. Hier finden Sie Hinweise zum 
-  <a href="policy.html"> Datenschutz</a>.
+  <a href="policy.html"> Datenschutz*</a>.
 </label>
 
 </div>

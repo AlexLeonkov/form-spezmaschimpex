@@ -12,6 +12,11 @@ export type ScreenDataType = {
   answers: string[];
 };
 
+
+interface Window {
+  dataLayer: any[];
+  gtag: (...args: any[]) => void;
+}
 export type UserData = {
   propertyType: string;
   solarUsage: string;
@@ -84,6 +89,11 @@ const App: React.FC = () => {
     console.log(emailParams);
 
     fbq('track', 'Lead');
+
+    window.gtag = window.gtag || function() { (window.dataLayer = window.dataLayer || []).push(arguments); };
+      
+    // Insert the Google Ads Event snippet
+    window.gtag('event', 'conversion', { 'send_to': 'AW-11412859119/3yy_CMux_foYEO_RicIq' });
 
     emailjs.send("service_k8svi04", "template_ujspeyu", emailParams).then(
       (response) => {
