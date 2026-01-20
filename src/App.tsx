@@ -10,6 +10,7 @@ import emailjs from "emailjs-com";
 export type ScreenDataType = {
   question: string;
   answers: string[];
+  key: keyof UserData;
 };
 
 
@@ -18,10 +19,14 @@ interface Window {
   gtag: (...args: any[]) => void;
 }
 export type UserData = {
+  interest: string;
   propertyType: string;
   solarUsage: string;
   roofOrientation: string;
   areaSize: string;
+  buildingType: string;
+  heatingType: string;
+  persons: string;
   name: string;
   phone: string;
   email: string;
@@ -39,10 +44,14 @@ const App: React.FC = () => {
 
   const [success, setSuccess] = useState<boolean>(false);
   const [userData, setUserData] = useState<UserData>({
+    interest: "",
     propertyType: "",
     solarUsage: "",
     roofOrientation: "",
     areaSize: "",
+    buildingType: "",
+    heatingType: "",
+    persons: "",
     name: "",
     phone: "",
     email: "",
@@ -50,18 +59,159 @@ const App: React.FC = () => {
     plz: "",
   });
 
+  const [screenData, setScreenData] = useState<ScreenDataType[]>([
+    {
+      question: "Was möchten Sie planen?",
+      answers: ["Photovoltaik", "Wärmepumpe", "Photovoltaik + Wärmepumpe"],
+      key: "interest",
+    },
+  ]);
+
   useEffect(() => {
     console.log(userData);
   }, [userData]);
 
   const handleNextScreenSelection = (selectedAnswer: string): void => {
     console.log(selectedAnswer);
+    
+    // Update logic for screen flow based on first answer
+    if (activeScreen === 1) {
+       let nextScreens: ScreenDataType[] = [];
+       const commonStart: ScreenDataType = {
+         question: "Was möchten Sie planen?",
+         answers: ["Photovoltaik", "Wärmepumpe", "Photovoltaik + Wärmepumpe"],
+         key: "interest",
+       };
+
+       if (selectedAnswer === "Photovoltaik") {
+         nextScreens = [
+           commonStart,
+           {
+             question: "Wo möchten Sie die Solarpanels installieren?",
+             answers: [
+               "Einfamilienhaus",
+               "Zweifamilienhaus",
+               "Mehrfamilienhaus",
+               "Firmengebäude",
+               "Freifläche",
+             ],
+             key: "propertyType",
+           },
+           {
+             question: "Wie möchten Sie den Solarstrom nutzen?",
+             answers: ["Eigenverbrauch", "Einspeisung ins Netz", "Beides"],
+             key: "solarUsage",
+           },
+           {
+             question: "Haben Sie eine nach Süden ausgerichtete Dachfläche?",
+             answers: ["Ja", "Nein", "Teilweise", "Nicht sicher"],
+             key: "roofOrientation",
+           },
+           {
+             question: "Wie groß ist die Fläche bzw. geplante Anlage?",
+             answers: [
+               "Bis zu 30 m²",
+               "30 - 100 m²",
+               "100 - 200 m²",
+               "200 - 500 m²",
+               "Über 500 m²",
+             ],
+             key: "areaSize",
+           },
+         ];
+       } else if (selectedAnswer === "Wärmepumpe") {
+         nextScreens = [
+           commonStart,
+           {
+             question: "Wo soll die Wärmepumpe installiert werden?",
+             answers: [
+               "Einfamilienhaus",
+               "Zweifamilienhaus",
+               "Mehrfamilienhaus",
+               "Firmengebäude",
+             ],
+             key: "propertyType",
+           },
+           {
+             question: "Handelt es sich um einen Neubau oder Bestandsgebäude?",
+             answers: ["Neubau", "Bestandsgebäude", "Sanierung geplant"],
+             key: "buildingType",
+           },
+           {
+            question: "Wie groß ist die zu beheizende Wohnfläche?",
+            answers: [
+              "Bis 100 m²",
+              "100 - 150 m²",
+              "150 - 200 m²",
+              "Über 200 m²",
+            ],
+            key: "areaSize",
+           },
+           {
+             question: "Wie heizen Sie aktuell?",
+             answers: ["Gas", "Öl", "Strom", "Holz/Pellets", "Sonstiges"],
+             key: "heatingType",
+           },
+           {
+             question: "Wie viele Personen leben im Haushalt?",
+             answers: ["1-2", "3-4", "5 oder mehr"],
+             key: "persons",
+           },
+         ];
+       } else {
+         // PV + WP
+         nextScreens = [
+           commonStart,
+           {
+             question: "Wo möchten Sie die Anlage installieren?",
+             answers: [
+               "Einfamilienhaus",
+               "Zweifamilienhaus",
+               "Mehrfamilienhaus",
+               "Firmengebäude",
+             ],
+             key: "propertyType",
+           },
+           {
+             question: "Handelt es sich um einen Neubau oder Bestandsgebäude?",
+             answers: ["Neubau", "Bestandsgebäude", "Sanierung geplant"],
+             key: "buildingType",
+           },
+           {
+             question: "Wie groß ist die zu beheizende Wohnfläche?",
+             answers: [
+               "Bis 100 m²",
+               "100 - 150 m²",
+               "150 - 200 m²",
+               "Über 200 m²",
+             ],
+             key: "areaSize",
+           },
+           {
+             question: "Haben Sie eine nach Süden ausgerichtete Dachfläche?",
+             answers: ["Ja", "Nein", "Teilweise", "Nicht sicher"],
+             key: "roofOrientation",
+           },
+           {
+             question: "Wie heizen Sie aktuell?",
+             answers: ["Gas", "Öl", "Strom", "Holz/Pellets", "Sonstiges"],
+             key: "heatingType",
+           },
+         ];
+       }
+       setScreenData(nextScreens);
+    }
+
     setUserData((prevUserData) => {
       const updatedUserData = { ...prevUserData };
-      const userDataKey = Object.keys(updatedUserData)[
-        activeScreen - 1
-      ] as keyof UserData;
-      updatedUserData[userDataKey] = selectedAnswer;
+      // Use the key from the current screen definition
+      // Note: validation of array bounds is implied by logic
+      const currentKey = screenData[activeScreen - 1]?.key || 
+                        (activeScreen === 1 ? 'interest' : 'question'); // Fallback for safety
+      
+      if (currentKey) {
+          (updatedUserData as any)[currentKey] = selectedAnswer;
+      }
       return updatedUserData;
     });
     setActiveScreen((prevScreen) => prevScreen + 1);
@@ -75,10 +225,14 @@ const App: React.FC = () => {
     console.log(newData, "newData");
     setUserData((prevUserData) => ({ ...prevUserData, ...newData }));
     const emailParams = {
+      interest: userData.interest,
       propertyType: userData.propertyType,
       solarUsage: userData.solarUsage,
       roofOrientation: userData.roofOrientation,
       areaSize: userData.areaSize,
+      buildingType: userData.buildingType,
+      heatingType: userData.heatingType,
+      persons: userData.persons,
       name: newData.name,
       phone: newData.phone,
       email: newData.email,
@@ -116,38 +270,6 @@ const App: React.FC = () => {
     // Implement form submission logic
   };
 
-  const screenData: ScreenDataType[] = [
-    {
-      question: "Wo möchten Sie die Solarpanels installieren?",
-      answers: [
-        "Einfamilienhaus",
-        "Zweifamilienhaus",
-        "Mehrfamilienhaus",
-        "Firmengebäude",
-        "Freifläche",
-      ],
-    },
-    {
-      question: "Wie möchten Sie den Solarstrom nutzen?",
-      answers: ["Eigenverbrauch", "Einspeisung ins Netz", "Beides"],
-    },
-    {
-      question: "Haben Sie eine nach Süden ausgerichtete Dachfläche?",
-      answers: ["Ja", "Nein", "Teilweise", "Nicht sicher"],
-    },
-    {
-      question: "Wie groß ist die Fläche bzw. geplante Anlage?",
-      answers: [
-        "Bis zu 30 m²",
-        "30 - 100 m²",
-        "100 - 200 m²",
-        "200 - 500 m²",
-        "Über 500 m²",
-      ],
-    },
-    // Fügen Sie mehr Bildschirme hinzu, falls benötigt
-  ];
-
   // Conditional rendering based on success state
   if (success) {
     return <SuccessScreen />;
@@ -159,14 +281,15 @@ const App: React.FC = () => {
         <form onSubmit={handleFormSubmit}>
 
            <Progress
-            percent={((activeScreen - 1) / (screenData.length + 1)) * 100}
+            percent={Math.round(((activeScreen - 1) / (screenData.length + 1)) * 100)}
             size="small"
+            showInfo={true}
             strokeColor="#4392c7"
           />
           {activeScreen <= screenData.length && (
             <PropertyTypeButtons
               onAnswerSelect={handleNextScreenSelection}
-              questionData={screenData[activeScreen - 1]}
+              questionData={screenData[activeScreen - 1]}   
             />
           )}
 
